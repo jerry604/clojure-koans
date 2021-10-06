@@ -3,21 +3,38 @@
 
 (defn is-even? [n]
   (if (= n 0)
-    __
-    (___ (is-even? (dec n)))))
+    true
+    (not (is-even? (dec n)))))
 
 (defn is-even-bigint? [n]
   (loop [n   n
          acc true]
     (if (= n 0)
-      __
+      acc
       (recur (dec n) (not acc)))))
 
 (defn recursive-reverse [coll]
-  __)
+  (loop [curr coll
+         acc '()]
+    (if (empty? curr)
+      acc
+      (recur (rest curr) (cons (first curr) acc)))))
 
-(defn factorial [n]
-  __)
+(defn factorialNonBig [n]
+  (if (zero? n)
+      1
+      (* n (factorialNonBig (dec n)))))
+
+; from https://clojuredocs.org/clojure.core/recur
+(def factorial
+  (fn [n]
+    (loop [cnt n
+           acc 1]
+      (if (zero? cnt)
+        acc
+        ; in loop cnt will take the value (dec cnt)
+        ; and acc will take the value (* acc cnt)
+        (recur (dec cnt) (* acc cnt))))))
 
 (meditations
   "Recursion ends with a base case"
